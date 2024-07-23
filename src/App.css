@@ -1,0 +1,16 @@
+/* App.css */
+.container {
+  margin-top: 20px;
+}
+
+h1 {
+  color: #007bff;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.btn-primary {
+  width: 100%;
+}
