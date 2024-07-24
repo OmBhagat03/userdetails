@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify'; // Import toast from react-toastify
 import { validateForm } from '../utils/validation';
-import '../styles/App.css';
+import '../styles/Form.css';
 
 const FormComponent = ({ formData, setFormData, userData, setUserData }) => {
   const [errors, setErrors] = useState({});
@@ -20,27 +20,33 @@ const FormComponent = ({ formData, setFormData, userData, setUserData }) => {
       return;
     }
 
-    if (formData.index === "") {   
-      const isExistingUser = userData.some(user => user.uemail === formData.uemail || user.uphone === formData.uphone);
-      if (isExistingUser) {
-        toast.error("Email or phone number already exists...");
-      } else {
-        setUserData([...userData, { ...formData, index: userData.length }]);
-        setFormData({ uname: '', uemail: '', uphone: '', umessage: '', index: '' });
-        toast.success("Data added successfully...");
+    const isExistingUser = userData.some((user, index) => {
+      if (formData.index !== '' && index === parseInt(formData.index)) {
+        return false;
       }
+      return user.uemail === formData.uemail || user.uphone === formData.uphone;
+    });
+
+    if (isExistingUser) {
+      toast.error("Email or phone number already exists...");
     } else {
-      const editIndex = formData.index;
-      const updatedUserData = [...userData];
-      updatedUserData[editIndex] = { ...formData };
-      setUserData(updatedUserData);
+      if (formData.index === "") {
+        setUserData([...userData, { ...formData, index: userData.length }]);
+        toast.success("Data added successfully...");
+      } else {
+        const editIndex = formData.index;
+        const updatedUserData = [...userData];
+        updatedUserData[editIndex] = { ...formData };
+        setUserData(updatedUserData);
+        toast.success("Data updated successfully...");
+      }
       setFormData({ uname: '', uemail: '', uphone: '', umessage: '', index: '' });
-      toast.success("Data updated successfully...");
+      setErrors({}); // Clear errors after successful save
     }
   };
 
   return (
-    <div>
+    <div className='form-container'>
       <form onSubmit={handleSubmit}>
         <div className='form-group'>
           <label className='form-label'>Name :</label>
