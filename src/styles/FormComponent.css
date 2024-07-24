@@ -1,0 +1,16 @@
+.form-container {
+    padding-bottom: 15px;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .text-danger {
+    color: red;
+  }
+  
+  .btn-primary {
+    width: 100%;
+  }
+  
